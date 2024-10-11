@@ -54,7 +54,7 @@ Once done, replace the **PLIVO_ANSWER_XML** present in the .env file with you ow
 Update the other variables present in the **.env** file such as
 
 ```
-PLIVO_AUTH_ID=<YOUR_PLIVO_AUTH_ID>[here]()
+PLIVO_AUTH_ID=<YOUR_PLIVO_AUTH_ID>
 PLIVO_AUTH_TOKEN=<YOUR_PLIVO_AUTH_TOKEN>
 PLIVO_FROM_NUMBER=<YOUR_PLIVO_NUMBER>
 PLIVO_TO_NUMBER=<CALLER_PHONE_NUMBER>
