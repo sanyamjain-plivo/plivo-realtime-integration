@@ -25,27 +25,12 @@ SessionUpdate.session.voice = 'alloy';
 
 
 app.post("/webhook", (request, reply) => {
-  // sending the conference xml to keep the call alive
   const PlivoXMLResponse = `<?xml version="1.0" encoding="UTF-8"?>
-                          <Response>
-                              <Conference>Audio Streaming conference</Conference>
-                          </Response>`;
-
-  // starting the Audio streaming through Plivo API
-  client.calls.stream(
-    request.body.CallUUID,
-    `ws://${request.host}/media-stream`,
-    {
-      bidirectional: true,
-      audioTrack: "inbound",
-      streamTimeout: 86400,
-      contentType: 'audio/x-mulaw;rate=8000'
-    }
-  ).then((response) => {
-    console.log('Plivo Audio Streaming started successfully ', response)
-  }).catch((e) => {
-    console.log('error while starting Plivo Audio Streaminfg ', e)
-  });
+                              <Response>
+                                  <Stream streamTimeout="86400" keepCallAlive="true" bidirectional="true" contentType="audio/x-mulaw;rate=8000" audioTrack="inbound" >
+                                      ws://${request.host}/media-stream
+                                  </Stream>
+                              </Response>`;
 
   reply.type('text/xml').send(PlivoXMLResponse);
 })
