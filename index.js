@@ -13,7 +13,6 @@ app.use(express.urlencoded({ extended: true }));
 
 const server = http.createServer(app);
 const wss = new WebSocketServer({ noServer: true });
-
 let client;
 const PORT = 5000;
 
@@ -97,6 +96,12 @@ const startRealtimeWSConnection = (plivoWS) => {
           break;
         case 'input_audio_buffer.speech_started':
           console.log('speech is started')
+          const clearAudioData = {
+            "event": "clearAudio",
+            "stream_id": plivoWS.streamId
+          }
+          plivoWS.send(JSON.stringify(clearAudioData))
+
           const data = {
             "type": "response.cancel"
           }
@@ -164,7 +169,8 @@ wss.on('connection', (connection) => {
           }
           break;
         case 'start':
-          console.log('Incoming stream has started')
+          console.log('Incoming stream has started with stream id: ', data.start.streamId)
+          connection.streamId = data.start.streamId
           break;
         default:
           console.log('Received non-media evengt: ', data.event)
